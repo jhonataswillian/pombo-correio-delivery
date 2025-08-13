@@ -1,0 +1,67 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Pigeon {
+  id           String   @id @default(cuid())
+  nickname     String   @unique
+  photoUrl     String?
+  averageSpeed Float    // km/h
+  isActive     Boolean  @default(true)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  // Relacionamentos
+  letters Letter[]
+
+  @@map("pigeons")
+}
+
+model Customer {
+  id        String   @id @default(cuid())
+  name      String
+  email     String   @unique
+  birthDate DateTime
+  address   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relacionamentos
+  letters Letter[]
+
+  @@map("customers")
+}
+
+model Letter {
+  id               String      @id @default(cuid())
+  content          String
+  recipientName    String
+  recipientAddress String
+  status           LetterStatus @default(QUEUED)
+  createdAt        DateTime     @default(now())
+  updatedAt        DateTime     @updatedAt
+
+  // Chaves estrangeiras
+  senderId String
+  pigeonId String
+
+  // Relacionamentos
+  sender Customer @relation(fields: [senderId], references: [id])
+  pigeon Pigeon   @relation(fields: [pigeonId], references: [id])
+
+  @@map("letters")
+}
+
+enum LetterStatus {
+  QUEUED
+  SENT
+  DELIVERED
+}
