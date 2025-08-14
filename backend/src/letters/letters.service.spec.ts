@@ -38,7 +38,6 @@ describe('LettersService', () => {
 
   describe('updateStatus', () => {
     it('deve impedir alteração de carta com status DELIVERED', async () => {
-      // Arrange
       const letterId = 'test-letter-id';
       const mockLetter = {
         id: letterId,
@@ -49,7 +48,6 @@ describe('LettersService', () => {
 
       mockPrismaService.letter.findUnique.mockResolvedValue(mockLetter);
 
-      // Act & Assert
       await expect(
         service.updateStatus(letterId, { status: LetterStatus.SENT }),
       ).rejects.toThrow(ConflictException);
@@ -58,7 +56,6 @@ describe('LettersService', () => {
     });
 
     it('deve permitir transição válida QUEUED → SENT', async () => {
-      // Arrange
       const letterId = 'test-letter-id';
       const mockCurrentLetter = {
         id: letterId,
@@ -77,18 +74,15 @@ describe('LettersService', () => {
       mockPrismaService.letter.findUnique.mockResolvedValue(mockCurrentLetter);
       mockPrismaService.letter.update.mockResolvedValue(mockUpdatedLetter);
 
-      // Act
       const result = await service.updateStatus(letterId, {
         status: LetterStatus.SENT,
       });
 
-      // Assert
       expect(result.message).toBe('Status da carta alterado para SENT');
       expect(result.letter.status).toBe(LetterStatus.SENT);
     });
 
     it('deve rejeitar transição inválida QUEUED → DELIVERED', async () => {
-      // Arrange
       const letterId = 'test-letter-id';
       const mockLetter = {
         id: letterId,
@@ -99,7 +93,6 @@ describe('LettersService', () => {
 
       mockPrismaService.letter.findUnique.mockResolvedValue(mockLetter);
 
-      // Act & Assert
       await expect(
         service.updateStatus(letterId, { status: LetterStatus.DELIVERED }),
       ).rejects.toThrow(BadRequestException);
@@ -108,7 +101,6 @@ describe('LettersService', () => {
 
   describe('create', () => {
     it('deve rejeitar criação com pombo aposentado', async () => {
-      // Arrange
       const createLetterDto = {
         content: 'Teste',
         recipientName: 'Maria',
@@ -127,7 +119,6 @@ describe('LettersService', () => {
       mockPrismaService.customer.findUnique.mockResolvedValue(mockCustomer);
       mockPrismaService.pigeon.findUnique.mockResolvedValue(mockPigeon);
 
-      // Act & Assert
       await expect(service.create(createLetterDto)).rejects.toThrow(
         BadRequestException,
       );

@@ -6,6 +6,6 @@ import { PrismaService } from '../prisma/prisma.service';
 @Module({
   controllers: [PigeonsController],
   providers: [PigeonsService, PrismaService],
-  exports: [PigeonsService], // Para usar em outros módulos (Letters)
+  exports: [PigeonsService],
 })
 export class PigeonsModule {}

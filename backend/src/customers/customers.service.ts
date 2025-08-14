@@ -12,12 +12,19 @@ import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
 export class CustomersService {
   constructor(private prisma: PrismaService) {}
 
+  // Função auxiliar para converter data string em data local
+  private parseLocalDate(dateString: string): Date {
+    const [year, month, day] = dateString.split('-').map(Number);
+    // Cria data local (sem timezone UTC)
+    return new Date(year, month - 1, day);
+  }
+
   async create(createCustomerDto: CreateCustomerDto) {
     try {
       const customer = await this.prisma.customer.create({
         data: {
           ...createCustomerDto,
-          birthDate: new Date(createCustomerDto.birthDate),
+          birthDate: this.parseLocalDate(createCustomerDto.birthDate),
         },
       });
       return customer;
@@ -74,7 +81,7 @@ export class CustomersService {
       const updateData = {
         ...updateCustomerDto,
         birthDate: updateCustomerDto.birthDate
-          ? new Date(updateCustomerDto.birthDate)
+          ? this.parseLocalDate(updateCustomerDto.birthDate)
           : undefined,
       };
 
@@ -98,7 +105,6 @@ export class CustomersService {
 
   async remove(id: string) {
     try {
-      // Verificar se cliente tem cartas associadas
       const customerWithLetters = await this.prisma.customer.findUnique({
         where: { id },
         include: {
@@ -134,7 +140,6 @@ export class CustomersService {
     }
   }
 
-  // Método auxiliar para buscar por email (usado em Letters)
   async findByEmail(email: string) {
     return this.prisma.customer.findUnique({
       where: { email },

@@ -46,7 +46,4 @@ export class LettersController {
   ) {
     return this.lettersService.updateStatus(id, updateLetterDto);
   }
-
-  // Não implementamos update completo ou delete - apenas mudança de status
-  // conforme as regras de negócio do enunciado
 }

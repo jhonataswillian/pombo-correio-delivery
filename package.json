@@ -1,0 +1,19 @@
+{
+  "name": "pombo-correio-delivery",
+  "version": "1.0.0",
+  "scripts": {
+    "dev:backend": "cd backend && npm run start:dev",
+    "dev:frontend": "cd frontend && npm run dev",
+    "dev": "concurrently \"npm run dev:backend\" \"npm run dev:frontend\"",
+    "build:backend": "cd backend && npm run build",
+    "build:frontend": "cd frontend && npm run build",
+    "build:all": "npm run build:backend && npm run build:frontend",
+    "docker:build": "docker-compose build",
+    "docker:up": "docker-compose up",
+    "docker:dev": "docker-compose up --build",
+    "start:prod": "docker-compose up -d"
+  },
+  "devDependencies": {
+    "concurrently": "^7.6.0"
+  }
+}

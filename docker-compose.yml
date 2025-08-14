@@ -1,34 +1,36 @@
-version: '3.8'
-
 services:
   backend:
     build: ./backend
+    container_name: pombo-backend
     ports:
       - "3001:3001"
     environment:
+      - NODE_ENV=production
       - DATABASE_URL=file:./dev.db
       - PORT=3001
     volumes:
-      - ./backend:/app
-      - /app/node_modules
-    depends_on:
-      - db
+      - backend_data:/app/prisma
+    networks:
+      - pombo-network
+    restart: unless-stopped
 
   frontend:
-    build: ./frontend
+    build:
+      context: ./frontend
+      target: production
+    container_name: pombo-frontend
     ports:
-      - "3000:3000"
-    volumes:
-      - ./frontend:/app
-      - /app/node_modules
+      - "3000:80"
     depends_on:
       - backend
-
-  db:
-    image: alpine:latest
-    volumes:
-      - ./backend/prisma:/data
-    command: ["sh", "-c", "while true; do sleep 30; done"]
+    networks:
+      - pombo-network
+    restart: unless-stopped
 
 volumes:
-  db_data:
+  backend_data:
+    driver: local
+
+networks:
+  pombo-network:
+    driver: bridge

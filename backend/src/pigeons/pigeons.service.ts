@@ -42,7 +42,6 @@ export class PigeonsService {
   }
 
   async findAllIncludingRetired() {
-    // Para admin - inclui aposentados
     return this.prisma.pigeon.findMany({
       orderBy: {
         createdAt: 'desc',
@@ -111,7 +110,6 @@ export class PigeonsService {
     }
   }
 
-  // Método auxiliar para verificar se pombo está ativo (usado em Letters)
   async isActive(id: string): Promise<boolean> {
     const pigeon = await this.prisma.pigeon.findUnique({
       where: { id },

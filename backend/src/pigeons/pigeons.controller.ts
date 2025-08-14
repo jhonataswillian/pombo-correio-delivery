@@ -51,7 +51,6 @@ export class PigeonsController {
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    // Não implementamos delete físico, apenas aposentadoria
     return this.retire(id);
   }
 }
