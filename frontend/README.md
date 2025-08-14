@@ -150,12 +150,6 @@ VITE_API_URL=http://localhost:3001    # URL do backend
 VITE_APP_VERSION=1.0.0                # Versão da aplicação
 ```
 
-### Deploy
-
-- **Vercel/Netlify:** Deploy automático do GitHub
-- **GitHub Pages:** Workflow configurado
-- **Docker:** Container otimizado disponível
-
 ## 🚨 Troubleshooting
 
 **Backend não conecta:**
