@@ -144,14 +144,6 @@ docker-compose up --build
 docker-compose -f docker-compose.prod.yml up -d
 ```
 
-## 🔄 CI/CD
-
-O projeto está configurado para:
-
-- Build automático no GitHub
-- Testes automatizados
-- Deploy via Docker
-
 ---
 
 **Desenvolvido para o teste técnico da Empresa Oper**
