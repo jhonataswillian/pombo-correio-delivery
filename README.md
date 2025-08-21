@@ -146,6 +146,4 @@ docker-compose -f docker-compose.prod.yml up -d
 
 ---
 
-**Desenvolvido para o teste técnico da Empresa Oper**
-
 "Eu sou um pássaro que vivo avoando. Vivo avoando sem nunca mais parar …" - Sr. Moraes Moreira
